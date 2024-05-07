@@ -73,34 +73,7 @@ const CreatePost = () => {
     "Photography",
   ];
 
-  // const createPost = async (e) => {
-  //   e.preventDefault();
 
-  //   const postData = new FormData();
-  //   postData.set("title", title);
-  //   postData.set("category", category);
-  //   postData.set("description", description);
-  //   postData.append("thumbnail", thumbnail); // Use append() for files
-
-  //   try {
-  //     console.log(postData);
-  //     const response = await axios.post(
-  //       `${import.meta.env.VITE_APP_BASE_URL}/posts`,
-  //       postData,
-  //       {
-  //         withCredentials: true,
-  //         headers: { Authorization: `Bearer ${token}` }, // Correct format for headers
-  //       }
-  //     );
-  //     if (response.status === 201) {
-  //       return navigate("/");
-        
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //     setError(error.response.data.message);
-  //   }
-  // };
 
   const createPost = async (e) => {
     e.preventDefault();
@@ -123,9 +96,7 @@ const CreatePost = () => {
           },
         }
       );
-      if (response.status === 201) {
         return navigate("/");
-      }
     } catch (error) {
       console.log(error);
       setError(error.response.data.message);
