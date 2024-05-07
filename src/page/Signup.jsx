@@ -29,7 +29,7 @@ const SignUp = () => {
     try {
       // console.log(userData);
       const response = await axios.post(
-        "http://localhost:8000/api/users/register", // Updated URL
+        `${import.meta.env.VITE_APP_BASE_URL}/users/register`, // Updated URL
         userData
       );
       const newUser = response.data; // Access the response data
