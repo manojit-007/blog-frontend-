@@ -87,7 +87,7 @@ const CreatePost = () => {
       console.log(error);
       setError(error.response?.data?.message || "An error occurred");
     }
-      window.location.href = "/";
+     navigate("/");
   };
 
   return (
