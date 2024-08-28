@@ -62,11 +62,7 @@ const CreatePost = () => {
     "Photography",
   ];
 
-  const home = () => {
-    navigate("/");
-  };
-
-  const createPost = async (e) => {
+  const createPost = (e) => {
     e.preventDefault();
 
     const postData = new FormData();
@@ -75,29 +71,28 @@ const CreatePost = () => {
     postData.append("description", description);
     postData.append("thumbnail", thumbnail);
 
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_APP_BASE_URL}/posts`,
-        postData,
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      console.log(response)
+    axios.post(
+      `${import.meta.env.VITE_APP_BASE_URL}/posts`,
+      postData,
+      {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    )
+    .then((response) => {
       if (response.status === 201) { // Check for 201 status
-        home(); // Navigate to home page only on successful post creation
+        navigate("/"); // Navigate to home page
       } else {
         setError("Failed to create post.");
       }
-    } catch (error) {
+    })
+    .catch((error) => {
       console.log(error);
       setError(error.response?.data?.message || "An error occurred");
-      home();
-    }
+    });
   };
 
   return (
@@ -106,7 +101,7 @@ const CreatePost = () => {
         <h2>Create post</h2>
         {error && <div className="form_error_message">{error}</div>}
 
-        <form className="form create_post_form" onSubmit={createPost}>
+        <form action="" className="form create_post_form" onSubmit={createPost}>
           <input
             type="text"
             placeholder="Add a Title for Your Blog"
@@ -121,9 +116,7 @@ const CreatePost = () => {
             onChange={(e) => setCategory(e.target.value)}
           >
             {POST_CATEGORIES.map((category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
+              <option key={category}>{category}</option>
             ))}
           </select>
 
