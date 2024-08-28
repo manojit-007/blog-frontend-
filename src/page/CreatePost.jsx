@@ -83,11 +83,11 @@ const CreatePost = () => {
           },
         }
       );
-      navigate("/");  // Navigate to the home page immediately after a successful post
     } catch (error) {
       console.log(error);
       setError(error.response?.data?.message || "An error occurred");
     }
+      window.location.href = "/";
   };
 
   return (
