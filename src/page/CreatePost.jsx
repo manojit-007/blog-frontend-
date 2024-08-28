@@ -62,33 +62,40 @@ const CreatePost = () => {
     "Photography",
   ];
 
-  const createPost = async (e) => {
-    e.preventDefault();
+ const createPost = (e) => {
+  e.preventDefault();
 
-    const postData = new FormData();
-    postData.append("title", title);
-    postData.append("category", category);
-    postData.append("description", description);
-    postData.append("thumbnail", thumbnail);
+  const postData = new FormData();
+  postData.append("title", title);
+  postData.append("category", category);
+  postData.append("description", description);
+  postData.append("thumbnail", thumbnail);
 
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_APP_BASE_URL}/posts`,
-        postData,
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-    } catch (error) {
-      console.log(error);
-      setError(error.response?.data?.message || "An error occurred");
+  axios.post(
+    `${import.meta.env.VITE_APP_BASE_URL}/posts`,
+    postData,
+    {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
     }
-     navigate("/");
-  };
+  )
+  .then((response) => {
+    // console.log("Response status:", response.status);
+    if (response.status === 200 || response.status === 201) {
+      navigate("/");
+    } else {
+      setError("Failed to create post.");
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+    setError(error.response?.data?.message || "An error occurred");
+  });
+};
+
 
   return (
     <section className="create_post">
