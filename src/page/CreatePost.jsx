@@ -87,11 +87,11 @@ const CreatePost = () => {
           },
         }
       );
-      if (response) {
+      console.log(response)
+      if (response.status === 201) { // Check for 201 status
         home(); // Navigate to home page only on successful post creation
       } else {
         setError("Failed to create post.");
-        home();
       }
     } catch (error) {
       console.log(error);
