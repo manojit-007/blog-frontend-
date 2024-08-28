@@ -62,41 +62,38 @@ const CreatePost = () => {
     "Photography",
   ];
 
- const createPost = (e) => {
-  e.preventDefault();
+  const createPost = (e) => {
+    e.preventDefault();
 
-  const postData = new FormData();
-  postData.append("title", title);
-  postData.append("category", category);
-  postData.append("description", description);
-  postData.append("thumbnail", thumbnail);
+    const postData = new FormData();
+    postData.append("title", title);
+    postData.append("category", category);
+    postData.append("description", description);
+    postData.append("thumbnail", thumbnail);
 
-  axios.post(
-    `${import.meta.env.VITE_APP_BASE_URL}/posts`,
-    postData,
-    {
-      withCredentials: true,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    }
-  )
-  .then((response) => {
-    // console.log("Response status:", response.status);
-    if (response.status === 200 || response.status === 201) {
-      navigate("/");
-    } else {
-      setError("Failed to create post.");
-    }
-  })
-  .catch((error) => {
-    console.log(error);
-    setError(error.response?.data?.message || "An error occurred");
-    navigate("/");
-  });
-};
-
+    axios.post(
+      `${import.meta.env.VITE_APP_BASE_URL}/posts`,
+      postData,
+      {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    )
+    .then((response) => {
+      if (response.status === 201) { // Check for 201 status
+        navigate("/"); // Navigate to home page
+      } else {
+        setError("Failed to create post.");
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      setError(error.response?.data?.message || "An error occurred");
+    });
+  };
 
   return (
     <section className="create_post">
@@ -141,9 +138,6 @@ const CreatePost = () => {
             Submit
           </button>
         </form>
-          <button type="submit" className="btn primary"  onClick={() => navigate("/")} >
-            Home
-          </button>
       </div>
     </section>
   );
