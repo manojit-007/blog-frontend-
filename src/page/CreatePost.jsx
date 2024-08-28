@@ -62,6 +62,9 @@ const CreatePost = () => {
     "Photography",
   ];
 
+  const home = () => {
+    navigate("/")
+  }
   const createPost = (e) => {
     e.preventDefault();
 
@@ -93,6 +96,7 @@ const CreatePost = () => {
       console.log(error);
       setError(error.response?.data?.message || "An error occurred");
     });
+    home();
   };
 
   return (
