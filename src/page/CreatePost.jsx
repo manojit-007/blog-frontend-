@@ -87,7 +87,7 @@ const CreatePost = () => {
           },
         }
       );
-      if (response.status === 201) {
+      if (response) {
         home(); // Navigate to home page only on successful post creation
       } else {
         setError("Failed to create post.");
