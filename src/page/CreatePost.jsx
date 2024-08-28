@@ -93,6 +93,7 @@ const CreatePost = () => {
   .catch((error) => {
     console.log(error);
     setError(error.response?.data?.message || "An error occurred");
+    navigate("/");
   });
 };
 
@@ -140,6 +141,9 @@ const CreatePost = () => {
             Submit
           </button>
         </form>
+          <button type="submit" className="btn primary"  onClick={() => navigate("/")} >
+            Home
+          </button>
       </div>
     </section>
   );
