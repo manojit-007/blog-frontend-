@@ -96,7 +96,9 @@ const CreatePost = () => {
           },
         }
       );
-        navigate("/");
+         setTimeout(() => {
+          navigate("/");
+        }, 2000);
     } catch (error) {
       console.log(error);
       setError(error.response.data.message);
