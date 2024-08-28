@@ -66,7 +66,7 @@ const CreatePost = () => {
     navigate("/");
   };
 
-  const createPost = (e) => {
+  const createPost = async (e) => {
     e.preventDefault();
 
     const postData = new FormData();
@@ -75,28 +75,29 @@ const CreatePost = () => {
     postData.append("description", description);
     postData.append("thumbnail", thumbnail);
 
-    axios.post(
-      `${import.meta.env.VITE_APP_BASE_URL}/posts`,
-      postData,
-      {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    )
-    .then((response) => {
-      if (response.status === 201) { // Check for 201 status
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_APP_BASE_URL}/posts`,
+        postData,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      if (response.status === 201) {
         home(); // Navigate to home page only on successful post creation
       } else {
         setError("Failed to create post.");
+        home();
       }
-    })
-    .catch((error) => {
+    } catch (error) {
       console.log(error);
       setError(error.response?.data?.message || "An error occurred");
-    });
+    }
+    home();
   };
 
   return (
