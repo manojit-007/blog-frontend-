@@ -96,8 +96,8 @@ const CreatePost = () => {
     } catch (error) {
       console.log(error);
       setError(error.response?.data?.message || "An error occurred");
+      home();
     }
-    home();
   };
 
   return (
