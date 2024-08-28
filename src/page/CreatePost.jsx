@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useNavigate } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import UserContextApi from "../../context/UserContextApi";
@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom"; // Importing useNavigate from re
 import axios from "axios";
 
 const CreatePost = () => {
+  const navigate = useNavigate();
   const [error, setError] = useState("");
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("Uncategorized");
@@ -96,7 +97,7 @@ const CreatePost = () => {
           },
         }
       );
-        return navigate("/");
+        navigate("/");
     } catch (error) {
       console.log(error);
       setError(error.response.data.message);
