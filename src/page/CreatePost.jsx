@@ -87,7 +87,7 @@ const CreatePost = () => {
     )
     .then((response) => {
       if (response.status === 201) { // Check for 201 status
-        navigate("/"); // Navigate to home page
+       home();
       } else {
         setError("Failed to create post.");
       }
@@ -96,7 +96,6 @@ const CreatePost = () => {
       console.log(error);
       setError(error.response?.data?.message || "An error occurred");
     });
-    home();
   };
 
   return (
