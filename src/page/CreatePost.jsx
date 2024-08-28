@@ -63,8 +63,9 @@ const CreatePost = () => {
   ];
 
   const home = () => {
-    navigate("/")
-  }
+    navigate("/");
+  };
+
   const createPost = (e) => {
     e.preventDefault();
 
@@ -87,7 +88,7 @@ const CreatePost = () => {
     )
     .then((response) => {
       if (response.status === 201) { // Check for 201 status
-       home();
+        home(); // Navigate to home page only on successful post creation
       } else {
         setError("Failed to create post.");
       }
@@ -104,7 +105,7 @@ const CreatePost = () => {
         <h2>Create post</h2>
         {error && <div className="form_error_message">{error}</div>}
 
-        <form action="" className="form create_post_form" onSubmit={createPost}>
+        <form className="form create_post_form" onSubmit={createPost}>
           <input
             type="text"
             placeholder="Add a Title for Your Blog"
@@ -119,7 +120,9 @@ const CreatePost = () => {
             onChange={(e) => setCategory(e.target.value)}
           >
             {POST_CATEGORIES.map((category) => (
-              <option key={category}>{category}</option>
+              <option key={category} value={category}>
+                {category}
+              </option>
             ))}
           </select>
 
