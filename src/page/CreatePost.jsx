@@ -1,8 +1,8 @@
-import { useState, useContext, useEffect} from "react";
+import { useState, useContext, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import UserContextApi from "../../context/UserContextApi";
-import { useNavigate } from "react-router-dom"; // Importing useNavigate from react-router-dom
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const CreatePost = () => {
@@ -13,10 +13,9 @@ const CreatePost = () => {
   const [description, setDescription] = useState("");
   const [thumbnail, setThumbnail] = useState("");
 
-
   const { currentUser } = useContext(UserContextApi);
   const token = currentUser?.token;
-  // If token is not available, the user is considered not logged in
+
   useEffect(() => {
     if (!token) {
       navigate("/login");
@@ -26,17 +25,10 @@ const CreatePost = () => {
   const modules = {
     toolbar: [
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
-      // ["blockquote"],
       ["bold", "italic"],
       [{ size: ["small", false, "large", "huge"] }],
-      [
-        { list: "ordered" },
-        { list: "bullet" },
-        // { indent: "-1" },
-        // { indent: "+1" },
-      ],
+      [{ list: "ordered" }, { list: "bullet" }],
       ["link", "image"],
-      // ["clean"],
     ],
   };
 
@@ -45,11 +37,8 @@ const CreatePost = () => {
     "bold",
     "italic",
     "underline",
-    // "strike",
-    // "blockquote",
     "list",
     "bullet",
-    // "indent",
     "link",
     "image",
   ];
@@ -73,17 +62,15 @@ const CreatePost = () => {
     "Photography",
   ];
 
-
-
   const createPost = async (e) => {
     e.preventDefault();
-  
+
     const postData = new FormData();
     postData.append("title", title);
     postData.append("category", category);
     postData.append("description", description);
-    postData.append("thumbnail", thumbnail); // Use append() for files
-  
+    postData.append("thumbnail", thumbnail);
+
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_APP_BASE_URL}/posts`,
@@ -92,24 +79,22 @@ const CreatePost = () => {
           withCredentials: true,
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data", // Set proper content type for form data
+            "Content-Type": "multipart/form-data",
           },
         }
       );
-         setTimeout(() => {
-          navigate("/");
-        }, 2000);
+      navigate("/");  // Navigate to the home page immediately after a successful post
     } catch (error) {
       console.log(error);
-      setError(error.response.data.message);
+      setError(error.response?.data?.message || "An error occurred");
     }
   };
-  
+
   return (
     <section className="create_post">
       <div className="container">
         <h2>Create post</h2>
-        {error && <marquee className="form_error_message">{error}</marquee>}
+        {error && <div className="form_error_message">{error}</div>}
 
         <form action="" className="form create_post_form" onSubmit={createPost}>
           <input
@@ -123,7 +108,6 @@ const CreatePost = () => {
           <select
             name="category"
             value={category}
-            id=""
             onChange={(e) => setCategory(e.target.value)}
           >
             {POST_CATEGORIES.map((category) => (
@@ -137,18 +121,12 @@ const CreatePost = () => {
             value={description}
             onChange={setDescription}
           />
-          {/* <input
-            type="text"
-            placeholder="Add a description for Your Blog"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          /> */}
 
           <input
             type="file"
             placeholder="Add image for Your Blog"
             onChange={(e) => setThumbnail(e.target.files[0])}
-            accept="image/jpeg, image/png, image/webp, image/gif, image/svg+xml" 
+            accept="image/jpeg, image/png, image/webp, image/gif, image/svg+xml"
           />
 
           <button type="submit" className="btn primary">
