@@ -13,7 +13,6 @@ const CreatePost = () => {
   const [description, setDescription] = useState("");
   const [thumbnail, setThumbnail] = useState("");
 
-  const navigate = useNavigate();
 
   const { currentUser } = useContext(UserContextApi);
   const token = currentUser?.token;
